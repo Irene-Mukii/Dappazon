@@ -1,6 +1,8 @@
 // We require the Hardhat Runtime Environment explicitly here. This is optional
 // but useful for running the script in a standalone fashion through `node <script>`.
 //
+// connected on browser and added the accounts created on local blockchainnode ; by inputing on gui default rpc url , chain id and currency symbol, we can interact with the local blockchain NETWORK and use the accounts created on local node to deploy the contract and interact with it.
+//
 // You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
