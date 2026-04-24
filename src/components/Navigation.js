@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 const Navigation = ({ account, setAccount }) => {
 
     const connectHandler = async () => {
+        
         if (account===null) {
             try {   
                 const provider = window.ethereum?.providers?.find(p => p.isMetaMask) || window.ethereum
@@ -19,7 +20,7 @@ const Navigation = ({ account, setAccount }) => {
             }  
         }
     }
-                   
+
     return (
         <nav>
             <div className="nav__brand">
