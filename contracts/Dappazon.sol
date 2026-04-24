@@ -22,7 +22,7 @@ contract Dappazon {
     }
 
     event List(string name, uint256 price, uint256 quantity); // an event that is emitted when a product is listed on the Dappazon. 
-    event Buy(address buyer, uint256 id, uint256 quantity); // an event that is emitted when a product is purchased on the Dappazon.
+    event Buy(address buyer, uint256 orderId, uint256 itemId); // an event that is emitted when a product is purchased on the Dappazon.
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Only the owner can call this function");
@@ -96,7 +96,7 @@ contract Dappazon {
         items[_id].stock -= _quantity; // update the stock of the item by subtracting the quantity ordered from the current stock.
 
         //emit event
-        emit Buy(msg.sender, _id, _quantity); // emit the Buy event to indicate that a purchase has been made.
+        emit Buy(msg.sender, orderCount[msg.sender], _id); // emit the Buy event to indicate that a purchase has been made.
     }
 
     //withdraw funds

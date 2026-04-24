@@ -5,10 +5,47 @@ import { ethers } from 'ethers'
 import Rating from './Rating'
 
 import close from '../assets/close.svg'
+import { use } from 'react'
 
 const Product = ({ item, provider, account, dappazon, togglePop }) => {
 
   const [order, setOrder] = useState(null)
+  const [hasBought, setHasBought] = useState(false)
+
+  const fetchOrder = async () => {
+    try {
+      const events = await dappazon.queryFilter('Buy')  
+      const orders = events.filter(event => event.args.buyer === account && event.args.id.toString() === item.id.toString())
+
+      if (orders.length === 0) return
+
+      const order = await dappazon.orders(account, orders[0].args.orderId)
+      setOrder(order)
+
+    } catch (error) {
+      console.error("Error fetching order:", error)
+    }
+
+    //OR
+    // Get the total order count for the user
+      // const orderCount = await dappazon.orderCount(account)
+      
+      // if (orderCount === 0) return
+
+      // // Loop through all user's orders to find the most recent one for this item
+      // let lastOrder = null
+      // for (let i = 1; i <= orderCount; i++) {
+      //   const order = await dappazon.orders(account, i)
+      //   // Check if this order is for the current item
+      //   if (order.item && order.item.id.toString() === item.id.toString()) {
+      //     lastOrder = order
+      //   }
+      // }
+
+      // if (lastOrder) {
+      //   setOrder(lastOrder)
+      // }
+  }
 
   const buyHandler = async () => {
     try {
@@ -17,12 +54,19 @@ const Product = ({ item, provider, account, dappazon, togglePop }) => {
       const transaction = await dappazon.connect(signer).buyProducts(item.id, 1, { value: item.price })
       await transaction.wait()
 
-      //togglePop()
+      setHasBought(true)
 
     } catch (error) {
       console.error("Error buying product:", error)
     } 
   }
+
+  useEffect(() => {
+    if (account && item.id) {
+      fetchOrder()
+    }
+  }, [account, item.id, hasBought])
+
 
   return (
     <div className="product">
