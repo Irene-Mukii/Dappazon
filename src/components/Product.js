@@ -14,10 +14,10 @@ const Product = ({ item, provider, account, dappazon, togglePop }) => {
     try {
       const signer = provider.getSigner()
       
-      const transaction = await dappazon.connect(signer).buyProduct(item.id, { value: item.cost.toString() })
+      const transaction = await dappazon.connect(signer).buyProducts(item.id, 1, { value: item.price })
       await transaction.wait()
 
-      togglePop()
+      //togglePop()
 
     } catch (error) {
       console.error("Error buying product:", error)
@@ -35,7 +35,7 @@ const Product = ({ item, provider, account, dappazon, togglePop }) => {
           <Rating value={item.rating} />
           <hr />
           <p>{item.address}</p>
-          <h2>{ethers.utils.formatUnits(item.cost.toString(), 'ether')} ETH</h2>
+          <h2>{ethers.utils.formatUnits(item.price.toString(), 'ether')} ETH</h2>
           <hr/>
           <h2>Overview</h2>
           <p>{item.description}
@@ -47,7 +47,7 @@ const Product = ({ item, provider, account, dappazon, togglePop }) => {
         </div>
 
         <div className="product__order">
-          <h1>{ethers.utils.formatUnits(item.cost.toString(), 'ether')} ETH</h1>
+          <h1>{ethers.utils.formatUnits(item.price.toString(), 'ether')} ETH</h1>
           <p>
             FREE delivery
             <br />
